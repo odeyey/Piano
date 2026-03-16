@@ -10,207 +10,101 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body {
-    min-height: 100vh;
-    background: linear-gradient(160deg, #0f0c29, #302b63, #24243e);
-    font-family: 'Heebo', sans-serif;
-    direction: rtl;
-    color: white;
-    padding-bottom: 90px;
-    overscroll-behavior: none;
-  }
+  body { min-height: 100vh; background: linear-gradient(160deg, #0f0c29, #302b63, #24243e); font-family: 'Heebo', sans-serif; direction: rtl; color: white; padding-bottom: 90px; }
   .fredoka { font-family: 'Fredoka One', cursive; }
-
-  .header {
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(20px);
-    padding: 48px 20px 16px;
-    text-align: center;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-  .header-label { font-size: 14px; opacity: 0.7; margin-bottom: 2px; }
+  .header { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); padding: 48px 20px 16px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; z-index: 10; }
   .star-count { font-family: 'Fredoka One', cursive; font-size: 48px; line-height: 1; color: #FFD700; }
-  .avail-label { font-size: 13px; opacity: 0.55; margin-top: 4px; }
-  .progress-label { font-size: 12px; opacity: 0.6; margin: 10px 0 4px; }
-  .progress-bar { background: rgba(255,255,255,0.1); border-radius: 99px; height: 8px; overflow: hidden; }
+  .progress-bar { background: rgba(255,255,255,0.1); border-radius: 99px; height: 8px; overflow: hidden; margin-top: 4px; }
   .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #FFD700, #FF6B6B); transition: width 0.6s ease; }
-
   .content { padding: 20px 16px; }
-
-  .card {
-    background: rgba(255,255,255,0.07);
-    border-radius: 24px;
-    padding: 20px;
-    margin-bottom: 16px;
-    border: 1px solid rgba(255,255,255,0.1);
-  }
+  .card { background: rgba(255,255,255,0.07); border-radius: 24px; padding: 20px; margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.1); }
   .card-title { font-weight: 700; font-size: 18px; margin-bottom: 16px; }
-
   .type-btns { display: flex; gap: 10px; margin-bottom: 16px; }
-  .type-btn {
-    flex: 1; padding: 12px 8px; border-radius: 16px; border: 2px solid rgba(255,255,255,0.2);
-    background: rgba(255,255,255,0.05); color: white; cursor: pointer;
-    font-family: 'Heebo', sans-serif; font-weight: 700; font-size: 14px;
-    transition: all 0.2s; text-align: center;
-  }
+  .type-btn { flex: 1; padding: 12px 8px; border-radius: 16px; border: 2px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: white; cursor: pointer; font-family: 'Heebo', sans-serif; font-weight: 700; font-size: 14px; transition: all 0.2s; text-align: center; }
   .type-btn.active { border-color: #FFD700; background: rgba(255,215,0,0.15); }
   .type-btn .sub { font-size: 11px; opacity: 0.7; margin-top: 3px; }
-
   .stars-row { display: flex; gap: 6px; margin-bottom: 16px; }
   .star-btn { font-size: 30px; cursor: pointer; transition: transform 0.15s; background: none; border: none; padding: 0; }
   .star-btn.on { transform: scale(1.15); }
   .star-btn.off { filter: grayscale(1) opacity(0.3); }
-
-  .note-input {
-    width: 100%; background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.15); border-radius: 12px;
-    padding: 10px 12px; color: white; font-size: 14px;
-    font-family: 'Heebo', sans-serif; resize: none; outline: none;
-    margin-bottom: 14px;
-  }
+  .note-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 10px 12px; color: white; font-size: 14px; font-family: 'Heebo', sans-serif; resize: none; outline: none; margin-bottom: 14px; }
   input.note-input { height: 44px; }
   textarea.note-input { height: 70px; }
-
-  .save-btn {
-    width: 100%;
-    background: linear-gradient(135deg, #FFD700, #FF6B6B);
-    border: none; border-radius: 16px; padding: 16px;
-    font-size: 18px; font-weight: 900; cursor: pointer; color: white;
-    font-family: 'Fredoka One', cursive;
-    box-shadow: 0 8px 24px rgba(255,107,107,0.4);
-    transition: transform 0.1s;
-  }
+  .save-btn { width: 100%; background: linear-gradient(135deg, #FFD700, #FF6B6B); border: none; border-radius: 16px; padding: 16px; font-size: 18px; font-weight: 900; cursor: pointer; color: white; font-family: 'Fredoka One', cursive; box-shadow: 0 8px 24px rgba(255,107,107,0.4); transition: transform 0.1s; }
   .save-btn:active { transform: scale(0.97); }
-
-  .week-row { display: flex; gap: 8px; align-items: center; margin-top: 4px; flex-wrap: wrap; }
-  .week-dot {
-    width: 42px; height: 42px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; font-size: 18px;
-    transition: all 0.3s;
-  }
+  .week-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+  .week-dot { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: all 0.3s; }
   .week-dot.done-practice { background: linear-gradient(135deg, #4ECDC4, #45B7D1); box-shadow: 0 4px 12px rgba(78,205,196,0.5); }
   .week-dot.done-lesson { background: linear-gradient(135deg, #667eea, #764ba2); box-shadow: 0 4px 12px rgba(102,126,234,0.5); }
   .week-dot.empty { background: rgba(255,255,255,0.1); }
-  .week-label { font-size: 13px; opacity: 0.8; }
-
-  .entry-item {
-    background: rgba(255,255,255,0.07);
-    border-radius: 20px; padding: 14px 16px; margin-bottom: 12px;
-    border: 1px solid rgba(255,255,255,0.1);
-    display: flex; align-items: center; gap: 14px;
-  }
-  .entry-icon {
-    width: 50px; height: 50px; border-radius: 16px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center; font-size: 24px;
-  }
+  .entry-item { background: rgba(255,255,255,0.07); border-radius: 20px; padding: 14px 16px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 14px; }
+  .entry-icon { width: 50px; height: 50px; border-radius: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 24px; }
   .entry-icon.lesson { background: linear-gradient(135deg, #667eea, #764ba2); }
   .entry-icon.practice { background: linear-gradient(135deg, #f093fb, #f5576c); }
-  .entry-info { flex: 1; }
-  .entry-name { font-weight: 700; font-size: 15px; }
-  .entry-note { font-size: 13px; opacity: 0.6; margin-top: 4px; }
-  .entry-date { font-size: 12px; opacity: 0.5; margin-top: 3px; }
-  .entry-earned { text-align: center; flex-shrink: 0; }
-  .entry-earned .num { font-size: 22px; font-weight: 900; color: #FFD700; font-family: 'Fredoka One', cursive; }
-  .entry-bonus { font-size: 10px; color: #4ECDC4; margin-top: 2px; }
-
   .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-  .stat-card {
-    background: rgba(255,255,255,0.07); border-radius: 20px; padding: 16px;
-    border: 1px solid rgba(255,255,255,0.1); text-align: center;
-  }
-  .stat-icon { font-size: 28px; margin-bottom: 4px; }
-  .stat-value { font-weight: 900; font-size: 26px; font-family: 'Fredoka One', cursive; color: #FFD700; }
-  .stat-label { font-size: 12px; opacity: 0.6; margin-top: 3px; }
-
+  .stat-card { background: rgba(255,255,255,0.07); border-radius: 20px; padding: 16px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
   .milestone-item { border-radius: 16px; padding: 12px 16px; margin-bottom: 10px; }
   .milestone-item.done { background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.4); }
   .milestone-item.locked { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
   .milestone-bar { background: rgba(255,255,255,0.1); border-radius: 99px; height: 6px; margin-top: 6px; }
   .milestone-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #FFD700, #FF6B6B); }
-  .milestone-row { display: flex; align-items: center; gap: 12px; width: 100%; }
-
   .prize-item { border-radius: 20px; padding: 14px 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
   .prize-item.available { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); }
   .prize-item.redeemed { background: rgba(78,205,196,0.1); border: 1px solid rgba(78,205,196,0.3); }
-  .prize-name { font-weight: 700; font-size: 15px; }
-  .prize-cost { font-size: 13px; color: #FFD700; margin-top: 3px; }
   .redeem-btn { border: none; border-radius: 12px; padding: 8px 14px; color: white; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Heebo', sans-serif; }
   .redeem-btn.can { background: linear-gradient(135deg, #FFD700, #FF6B6B); }
   .redeem-btn.cant { background: rgba(255,255,255,0.1); cursor: not-allowed; }
   .del-btn { background: none; border: none; color: rgba(255,255,255,0.3); cursor: pointer; font-size: 18px; padding: 4px; }
-
-  .bottom-nav {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: rgba(15,12,41,0.96);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(255,255,255,0.1);
-    display: flex; padding: 8px 0 24px;
-    z-index: 20;
-  }
+  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(15,12,41,0.96); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.1); display: flex; padding: 8px 0 24px; z-index: 20; }
   .nav-btn { flex: 1; background: none; border: none; cursor: pointer; font-family: 'Heebo', sans-serif; font-size: 11px; padding: 6px 4px; transition: all 0.2s; color: rgba(255,255,255,0.4); }
   .nav-btn.active { color: #FFD700; font-weight: 700; }
   .nav-icon { font-size: 22px; margin-bottom: 2px; }
-
   .confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 1000; overflow: hidden; }
   .confetti-piece { position: absolute; top: -12px; border-radius: 50%; animation: confettiFall 2.2s ease-in forwards; }
   @keyframes confettiFall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-
-  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 999; animation: fadeIn 0.3s ease; }
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 999; }
   .popup { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 32px; padding: 40px 48px; text-align: center; color: white; max-width: 320px; width: 90%; box-shadow: 0 30px 80px rgba(0,0,0,0.4); animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
-  .popup-icon { font-size: 72px; margin-bottom: 8px; }
-  .popup-title { font-family: 'Fredoka One', cursive; font-size: 28px; margin-bottom: 8px; }
-  .popup-msg { font-size: 18px; opacity: 0.9; margin-bottom: 8px; }
-  .popup-sub { font-size: 14px; opacity: 0.8; margin-bottom: 24px; }
-  .popup-btn { background: white; color: #764ba2; border: none; border-radius: 50px; padding: 12px 32px; font-size: 16px; font-weight: 700; cursor: pointer; font-family: 'Heebo', sans-serif; }
-  @keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
   @keyframes popIn { from { transform: scale(0.5); opacity:0 } to { transform: scale(1); opacity:1 } }
-
   .empty-state { text-align: center; opacity: 0.45; padding: 40px 20px; font-size: 16px; line-height: 1.8; }
-  .add-prize-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
   .num-input { width: 70px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 8px 10px; color: white; font-size: 14px; font-family: 'Heebo', sans-serif; outline: none; }
   .add-btn { background: linear-gradient(135deg, #4ECDC4, #45B7D1); border: none; border-radius: 12px; padding: 10px 20px; color: white; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Heebo', sans-serif; }
-  .section-title { font-weight: 700; font-size: 20px; margin-bottom: 16px; }
-  .section-subtitle { font-weight: 700; font-size: 16px; margin-bottom: 12px; }
-
-  /* Admin styles */
   .admin-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
   .admin-row:last-child { border-bottom: none; }
-  .admin-label { font-size: 14px; opacity: 0.9; }
   .admin-input { width: 70px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 8px 10px; color: white; font-size: 16px; font-weight: 700; font-family: 'Heebo', sans-serif; outline: none; text-align: center; }
   .admin-save-btn { background: linear-gradient(135deg, #4ECDC4, #45B7D1); border: none; border-radius: 14px; padding: 12px; color: white; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Heebo', sans-serif; width: 100%; margin-top: 16px; }
-  .admin-desc { font-size: 12px; opacity: 0.5; margin-top: 2px; }
   .danger-btn { background: rgba(255,100,100,0.2); border: 1px solid rgba(255,100,100,0.4); border-radius: 14px; padding: 12px; color: #ff6464; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Heebo', sans-serif; width: 100%; margin-top: 10px; }
+  .mode-bar { display: flex; gap: 8px; padding: 12px 16px; background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .mode-btn { flex: 1; padding: 8px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); background: none; color: rgba(255,255,255,0.5); font-family: 'Heebo', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.2s; }
+  .mode-btn.active { background: rgba(255,215,0,0.15); border-color: #FFD700; color: #FFD700; font-weight: 700; }
+  .sync-badge { font-size: 11px; opacity: 0.5; margin-top: 4px; }
 </style>
 </head>
 <body>
-
 <div class="confetti-wrap" id="confettiWrap"></div>
-
 <div class="overlay" id="milestoneOverlay" style="display:none">
   <div class="popup">
-    <div class="popup-icon">🏆</div>
-    <div class="popup-title">מדהים!</div>
-    <div class="popup-msg" id="popupMsg"></div>
-    <div class="popup-sub">מגיע לך פרס! 🎁</div>
-    <button class="popup-btn" onclick="closePopup()">יאיייי! 🎉</button>
+    <div style="font-size:72px;margin-bottom:8px">🏆</div>
+    <div style="font-family:'Fredoka One',cursive;font-size:28px;margin-bottom:8px">מדהים!</div>
+    <div style="font-size:18px;opacity:0.9;margin-bottom:8px" id="popupMsg"></div>
+    <div style="font-size:14px;opacity:0.8;margin-bottom:24px">מגיע לך פרס! 🎁</div>
+    <button onclick="closePopup()" style="background:white;color:#764ba2;border:none;border-radius:50px;padding:12px 32px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Heebo',sans-serif">יאיייי! 🎉</button>
   </div>
 </div>
-
 <div class="header">
-  <div class="header-label">🎹 מעקב פסנתר</div>
+  <div style="font-size:14px;opacity:0.7;margin-bottom:2px">🎹 מעקב פסנתר</div>
   <div class="star-count fredoka" id="totalStarsEl">0 ⭐</div>
-  <div class="avail-label" id="availStarsEl">זמין: 0 ⭐</div>
-  <div id="progressSection">
-    <div class="progress-label" id="progressLabel"></div>
+  <div style="font-size:13px;opacity:0.55;margin-top:4px" id="availStarsEl">זמין: 0 ⭐</div>
+  <div id="progressSection" style="margin-top:10px">
+    <div style="font-size:12px;opacity:0.6;margin-bottom:4px" id="progressLabel"></div>
     <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
   </div>
+  <div class="sync-badge" id="syncBadge">⏳ מתחבר...</div>
 </div>
-
-<div class="content" id="content"></div>
-
+<div class="mode-bar">
+  <button class="mode-btn active" id="modeParent" onclick="setMode('parent')">👨‍👩‍👦 הורה</button>
+  <button class="mode-btn" id="modeChild" onclick="setMode('child')">🧒 ילד (צפייה)</button>
+</div>
+<div class="content" id="content"><div style="text-align:center;padding:40px;opacity:0.6">⏳ טוען...</div></div>
 <div class="bottom-nav">
   <button class="nav-btn active" onclick="switchTab(0)" id="tab0"><div class="nav-icon">🏠</div>בית</button>
   <button class="nav-btn" onclick="switchTab(1)" id="tab1"><div class="nav-icon">📅</div>יומן</button>
@@ -219,401 +113,227 @@
   <button class="nav-btn" onclick="switchTab(4)" id="tab4"><div class="nav-icon">⚙️</div>הגדרות</button>
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getFirestore, collection, doc, onSnapshot, addDoc, updateDoc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA3-aUqHHL-HsbHabs4HmrSJ3pcZ8Ws6T8",
+  authDomain: "piano-tracker-2b924.firebaseapp.com",
+  projectId: "piano-tracker-2b924",
+  storageBucket: "piano-tracker-2b924.firebasestorage.app",
+  messagingSenderId: "135738352734",
+  appId: "1:135738352734:web:bddb60abb0ebd87712c0cf"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 const MILESTONES = [50, 100, 200, 500, 1000];
 let currentTab = 0;
-
-function loadSettings() {
-  try {
-    return JSON.parse(localStorage.getItem('piano_settings')) || {
-      practiceStars: 5,
-      lessonStars: 15,
-      weeklyPracticeGoal: 3,
-      weeklyLessonGoal: 2,
-      weeklyBonusStars: 10,
-      monthlyBonusStars: 20
-    };
-  } catch { return { practiceStars: 5, lessonStars: 15, weeklyPracticeGoal: 3, weeklyLessonGoal: 2, weeklyBonusStars: 10, monthlyBonusStars: 20 }; }
-}
-
-function load(key, def) { try { return JSON.parse(localStorage.getItem(key)) || def; } catch { return def; } }
-function save(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
-
-let entries = load('piano_entries', []);
-let prizes = load('piano_prizes', []);
-let settings = loadSettings();
+let currentMode = 'parent';
+let entries = [];
+let prizes = [];
+let settings = { lessonStars:15, practiceStars:5, weeklyPracticeGoal:3, weeklyLessonGoal:2, weeklyBonusStars:10, monthlyBonusStars:20 };
 let logType = 'practice';
 let selectedStars = 3;
+let saving = false;
 
-function totalStars() { return entries.reduce((s, e) => s + e.stars, 0); }
-function redeemedStars() { return prizes.filter(p => p.redeemed).reduce((s, p) => s + p.cost, 0); }
-function availableStars() { return totalStars() - redeemedStars(); }
+window.switchTab = n => { currentTab=n; for(let i=0;i<5;i++) document.getElementById('tab'+i).classList.toggle('active',i===n); render(); };
+window.setMode = m => { currentMode=m; document.getElementById('modeParent').classList.toggle('active',m==='parent'); document.getElementById('modeChild').classList.toggle('active',m==='child'); render(); };
+window.setType = t => { logType=t; render(); };
+window.setStar = n => { selectedStars=n; render(); };
+window.closePopup = () => document.getElementById('milestoneOverlay').style.display='none';
+window.logEntry = () => logEntryFn();
+window.addPrize = () => addPrizeFn();
+window.redeemPrize = id => redeemPrizeFn(id);
+window.deletePrize = id => deletePrizeFn(id);
+window.saveSettings = () => saveSettingsFn();
+window.resetData = () => resetDataFn();
+
+onSnapshot(collection(db,'entries'), snap => {
+  entries = snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.date-a.date);
+  document.getElementById('syncBadge').textContent = '✅ מסונכרן';
+  render();
+});
+onSnapshot(collection(db,'prizes'), snap => {
+  prizes = snap.docs.map(d=>({id:d.id,...d.data()}));
+  render();
+});
+onSnapshot(doc(db,'config','settings'), snap => {
+  if(snap.exists()) settings={...settings,...snap.data()};
+  render();
+});
+
+const totalStars = () => entries.reduce((s,e)=>s+e.stars,0);
+const redeemedStars = () => prizes.filter(p=>p.redeemed).reduce((s,p)=>s+p.cost,0);
+const availableStars = () => totalStars()-redeemedStars();
 
 function getWeeklyCount(type) {
-  const now = new Date();
-  const start = new Date(now); start.setDate(now.getDate() - now.getDay()); start.setHours(0,0,0,0);
-  return entries.filter(e => e.type === type && new Date(e.date) >= start).length;
+  const now=new Date(), start=new Date(now);
+  start.setDate(now.getDate()-now.getDay()); start.setHours(0,0,0,0);
+  return entries.filter(e=>e.type===type&&e.date>=start.getTime()).length;
 }
 
 function updateHeader() {
-  const total = totalStars();
-  const avail = availableStars();
-  document.getElementById('totalStarsEl').textContent = total + ' ⭐';
-  document.getElementById('availStarsEl').textContent = 'זמין: ' + avail + ' ⭐';
-  const next = MILESTONES.find(m => m > total);
-  if (next) {
-    const pct = Math.min((total / next) * 100, 100);
-    document.getElementById('progressLabel').textContent = 'עוד ' + (next - total) + ' כוכבים עד המטרה הבאה (' + next + ' ⭐)';
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('progressSection').style.display = 'block';
-  } else {
-    document.getElementById('progressSection').style.display = 'none';
-  }
-}
-
-function switchTab(n) {
-  currentTab = n;
-  for (let i = 0; i < 5; i++) document.getElementById('tab' + i).classList.toggle('active', i === n);
-  render();
+  const total=totalStars(), avail=availableStars();
+  document.getElementById('totalStarsEl').textContent=total+' ⭐';
+  document.getElementById('availStarsEl').textContent='זמין: '+avail+' ⭐';
+  const next=MILESTONES.find(m=>m>total);
+  if(next){
+    document.getElementById('progressLabel').textContent='עוד '+(next-total)+' כוכבים עד '+next+' ⭐';
+    document.getElementById('progressFill').style.width=Math.min((total/next)*100,100)+'%';
+    document.getElementById('progressSection').style.display='block';
+  } else document.getElementById('progressSection').style.display='none';
 }
 
 function render() {
   updateHeader();
-  const c = document.getElementById('content');
-  if (currentTab === 0) c.innerHTML = renderHome();
-  if (currentTab === 1) c.innerHTML = renderHistory();
-  if (currentTab === 2) c.innerHTML = renderProgress();
-  if (currentTab === 3) c.innerHTML = renderPrizes();
-  if (currentTab === 4) c.innerHTML = renderAdmin();
+  const c=document.getElementById('content'), isChild=currentMode==='child';
+  if(currentTab===0) c.innerHTML=isChild?renderChildHome():renderHome();
+  if(currentTab===1) c.innerHTML=renderHistory();
+  if(currentTab===2) c.innerHTML=renderProgress();
+  if(currentTab===3) c.innerHTML=renderPrizes();
+  if(currentTab===4) c.innerHTML=isChild?'<div class="empty-state">הגדרות זמינות להורים בלבד 🔒</div>':renderAdmin();
+}
+
+function renderChildHome() {
+  const total=totalStars(), wp=getWeeklyCount('practice'), wl=getWeeklyCount('lesson');
+  const next=MILESTONES.find(m=>m>total)||'🏆';
+  return `<div style="text-align:center;padding:30px 20px">
+    <div style="font-size:80px;margin-bottom:8px">🎹</div>
+    <div style="font-family:'Fredoka One',cursive;font-size:64px;color:#FFD700">${total}</div>
+    <div style="font-size:20px;opacity:0.7;margin-bottom:24px">כוכבים ⭐</div>
+    <div class="card" style="text-align:right">
+      <div class="card-title">📅 השבוע</div>
+      <div style="font-size:15px;margin-bottom:8px">🎵 תרגולים: ${wp}/${settings.weeklyPracticeGoal}</div>
+      <div style="font-size:15px">🎓 שיעורים: ${wl}/${settings.weeklyLessonGoal}</div>
+      ${wp>=settings.weeklyPracticeGoal&&wl>=settings.weeklyLessonGoal?'<div style="margin-top:12px;color:#FFD700;font-weight:700">🎊 השלמת את היעד השבועי!</div>':''}
+    </div>
+    <div class="card" style="text-align:right">
+      <div class="card-title">🎯 המטרה הבאה</div>
+      <div style="font-size:22px;font-family:\'Fredoka One\',cursive;color:#FFD700">${next} ⭐</div>
+      ${typeof next==='number'?`<div style="font-size:13px;opacity:0.6;margin-top:4px">עוד ${next-total} כוכבים!</div>`:''}
+    </div>
+  </div>`;
 }
 
 function renderHome() {
-  const weeklyPractices = getWeeklyCount('practice');
-  const weeklyLessons = getWeeklyCount('lesson');
-  const practiceGoal = settings.weeklyPracticeGoal;
-  const lessonGoal = settings.weeklyLessonGoal;
-
-  const starsHtml = [1,2,3,4,5].map(s =>
-    `<button class="star-btn ${s <= selectedStars ? 'on' : 'off'}" onclick="setStar(${s})">⭐</button>`
-  ).join('');
-
-  // Practice dots
-  const practiceDots = Array.from({length: practiceGoal}, (_,i) =>
-    `<div class="week-dot ${i < weeklyPractices ? 'done-practice' : 'empty'}" title="תרגול">${i < weeklyPractices ? '🎵' : '○'}</div>`
-  ).join('');
-
-  // Lesson dots
-  const lessonDots = Array.from({length: lessonGoal}, (_,i) =>
-    `<div class="week-dot ${i < weeklyLessons ? 'done-lesson' : 'empty'}" title="שיעור">${i < weeklyLessons ? '🎓' : '○'}</div>`
-  ).join('');
-
-  const weeklyDone = weeklyPractices >= practiceGoal && weeklyLessons >= lessonGoal;
-
-  return `
-    <div class="card">
-      <div class="card-title">📝 תיעוד חדש</div>
-      <div class="type-btns">
-        <button class="type-btn ${logType==='practice'?'active':''}" onclick="setType('practice')">
-          🎵 תרגול בית<div class="sub">${settings.practiceStars} ⭐ מקסימום</div>
-        </button>
-        <button class="type-btn ${logType==='lesson'?'active':''}" onclick="setType('lesson')">
-          🎓 שיעור<div class="sub">${settings.lessonStars} ⭐</div>
-        </button>
-      </div>
-      ${logType==='practice' ? `
-        <div style="margin-bottom:8px;font-size:14px;opacity:0.7">כמה כוכבים מגיע לתרגול הזה?</div>
-        <div class="stars-row">${starsHtml}</div>
-      ` : ''}
-      <textarea class="note-input" id="noteInput" placeholder="הערה (אופציונלי)..."></textarea>
-      <button class="save-btn" onclick="logEntry()">🎉 שמור וקבל כוכבים!</button>
+  const wp=getWeeklyCount('practice'), wl=getWeeklyCount('lesson');
+  const starsHtml=[1,2,3,4,5].map(s=>`<button class="star-btn ${s<=selectedStars?'on':'off'}" onclick="setStar(${s})">⭐</button>`).join('');
+  const pdots=Array.from({length:settings.weeklyPracticeGoal},(_,i)=>`<div class="week-dot ${i<wp?'done-practice':'empty'}">${i<wp?'🎵':'○'}</div>`).join('');
+  const ldots=Array.from({length:settings.weeklyLessonGoal},(_,i)=>`<div class="week-dot ${i<wl?'done-lesson':'empty'}">${i<wl?'🎓':'○'}</div>`).join('');
+  return `<div class="card">
+    <div class="card-title">📝 תיעוד חדש</div>
+    <div class="type-btns">
+      <button class="type-btn ${logType==='practice'?'active':''}" onclick="setType('practice')">🎵 תרגול בית<div class="sub">עד ${settings.practiceStars} ⭐</div></button>
+      <button class="type-btn ${logType==='lesson'?'active':''}" onclick="setType('lesson')">🎓 שיעור<div class="sub">${settings.lessonStars} ⭐</div></button>
     </div>
-    <div class="card">
-      <div class="card-title">📅 יעד שבועי</div>
-      <div style="margin-bottom:10px">
-        <div style="font-size:13px;opacity:0.6;margin-bottom:6px">תרגולים (${weeklyPractices}/${practiceGoal})</div>
-        <div class="week-row">${practiceDots}</div>
-      </div>
-      <div>
-        <div style="font-size:13px;opacity:0.6;margin-bottom:6px">שיעורים עם מורה (${weeklyLessons}/${lessonGoal})</div>
-        <div class="week-row">${lessonDots}</div>
-      </div>
-      ${weeklyDone ? `<div style="margin-top:12px;font-size:14px;color:#FFD700;font-weight:700">🎊 השלמת את היעד השבועי! +${settings.weeklyBonusStars} ⭐</div>` : ''}
-    </div>
-  `;
+    ${logType==='practice'?`<div style="margin-bottom:8px;font-size:14px;opacity:0.7">כמה כוכבים מגיע?</div><div class="stars-row">${starsHtml}</div>`:''}
+    <textarea class="note-input" id="noteInput" placeholder="הערה (אופציונלי)..."></textarea>
+    <button class="save-btn" onclick="logEntry()">🎉 שמור וקבל כוכבים!</button>
+  </div>
+  <div class="card">
+    <div class="card-title">📅 יעד שבועי</div>
+    <div style="margin-bottom:10px"><div style="font-size:13px;opacity:0.6;margin-bottom:6px">תרגולים (${wp}/${settings.weeklyPracticeGoal})</div><div class="week-row">${pdots}</div></div>
+    <div><div style="font-size:13px;opacity:0.6;margin-bottom:6px">שיעורים (${wl}/${settings.weeklyLessonGoal})</div><div class="week-row">${ldots}</div></div>
+    ${wp>=settings.weeklyPracticeGoal&&wl>=settings.weeklyLessonGoal?`<div style="margin-top:12px;font-size:14px;color:#FFD700;font-weight:700">🎊 השלמת את היעד! +${settings.weeklyBonusStars} ⭐</div>`:''}
+  </div>`;
 }
 
 function renderHistory() {
-  if (!entries.length) return `<div class="section-title">📅 היסטוריה</div><div class="empty-state">עוד אין פעילויות.<br>התחל לתעד! 🎹</div>`;
-  const items = entries.map(e => {
-    const starsHtml = e.displayStars
-      ? [1,2,3,4,5].map(s=>`<span style="font-size:16px;${s<=e.displayStars?'':'filter:grayscale(1) opacity(0.3)'}">⭐</span>`).join('')
-      : '';
-    const d = new Date(e.date);
-    const dateStr = d.toLocaleDateString('he-IL', {weekday:'long', day:'numeric', month:'long'});
-    return `
-      <div class="entry-item">
-        <div class="entry-icon ${e.type}">${e.type==='lesson'?'🎓':'🎵'}</div>
-        <div class="entry-info">
-          <div class="entry-name">${e.type==='lesson'?'שיעור עם המורה':'תרגול בית'}</div>
-          ${starsHtml ? `<div style="display:flex;gap:2px;margin-top:3px">${starsHtml}</div>` : ''}
-          ${e.note ? `<div class="entry-note">${e.note}</div>` : ''}
-          <div class="entry-date">${dateStr}</div>
-        </div>
-        <div class="entry-earned">
-          <div class="num">+${e.stars}</div>
-          <div style="font-size:12px">⭐</div>
-          ${e.bonusMsg ? `<div class="entry-bonus">${e.bonusMsg}</div>` : ''}
-        </div>
-      </div>
-    `;
+  if(!entries.length) return '<div style="font-weight:700;font-size:20px;margin-bottom:16px">📅 היסטוריה</div><div class="empty-state">עוד אין פעילויות.<br>התחל לתעד! 🎹</div>';
+  return '<div style="font-weight:700;font-size:20px;margin-bottom:16px">📅 היסטוריה</div>'+entries.map(e=>{
+    const sh=e.displayStars?[1,2,3,4,5].map(s=>`<span style="font-size:14px;${s<=e.displayStars?'':'filter:grayscale(1) opacity(0.3)'}">⭐</span>`).join(''):'';
+    const d=new Date(e.date), ds=d.toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'long'});
+    return `<div class="entry-item"><div class="entry-icon ${e.type}">${e.type==='lesson'?'🎓':'🎵'}</div><div style="flex:1"><div style="font-weight:700;font-size:15px">${e.type==='lesson'?'שיעור עם המורה':'תרגול בית'}</div>${sh?`<div style="display:flex;gap:2px;margin-top:2px">${sh}</div>`:''}${e.note?`<div style="font-size:13px;opacity:0.6;margin-top:3px">${e.note}</div>`:''}<div style="font-size:12px;opacity:0.5;margin-top:3px">${ds}</div></div><div style="text-align:center;flex-shrink:0"><div style="font-size:22px;font-weight:900;color:#FFD700;font-family:'Fredoka One',cursive">+${e.stars}</div><div style="font-size:11px">⭐</div>${e.bonusMsg?`<div style="font-size:10px;color:#4ECDC4">${e.bonusMsg}</div>`:''}</div></div>`;
   }).join('');
-  return `<div class="section-title">📅 היסטוריה</div>${items}`;
 }
 
 function renderProgress() {
-  const total = totalStars();
-  const lessons = entries.filter(e=>e.type==='lesson').length;
-  const practices = entries.filter(e=>e.type==='practice').length;
-  const wp = getWeeklyCount('practice');
-  const wl = getWeeklyCount('lesson');
-  const stats = [
-    {icon:'⭐', val:total, label:'סה״כ כוכבים'},
-    {icon:'🎓', val:lessons, label:'שיעורים'},
-    {icon:'🎵', val:practices, label:'תרגולים'},
-    {icon:'🎯', val:`${wp}/${settings.weeklyPracticeGoal} | ${wl}/${settings.weeklyLessonGoal}`, label:'יעד שבועי'},
-  ];
-  const statsHtml = stats.map(s=>`
-    <div class="stat-card">
-      <div class="stat-icon">${s.icon}</div>
-      <div class="stat-value fredoka">${s.val}</div>
-      <div class="stat-label">${s.label}</div>
-    </div>
-  `).join('');
-  const msHtml = MILESTONES.map(m => {
-    const done = total >= m;
-    const pct = Math.min((total/m)*100,100);
-    return `
-      <div class="milestone-item ${done?'done':'locked'}">
-        <div class="milestone-row">
-          <div style="font-size:28px;flex-shrink:0">${done?'🏆':'🔒'}</div>
-          <div style="flex:1">
-            <div style="font-weight:700">${m} כוכבים</div>
-            <div class="milestone-bar"><div class="milestone-fill" style="width:${pct}%"></div></div>
-          </div>
-          <div style="font-size:13px;font-weight:700;color:${done?'#FFD700':'rgba(255,255,255,0.4)'}">${done?'✅':`${total}/${m}`}</div>
-        </div>
-      </div>
-    `;
+  const total=totalStars(), wp=getWeeklyCount('practice'), wl=getWeeklyCount('lesson');
+  const sg=[{icon:'⭐',val:total,label:'סה״כ'},{icon:'🎓',val:entries.filter(e=>e.type==='lesson').length,label:'שיעורים'},{icon:'🎵',val:entries.filter(e=>e.type==='practice').length,label:'תרגולים'},{icon:'🎯',val:wp+'/'+settings.weeklyPracticeGoal,label:'השבוע'}];
+  return '<div style="font-weight:700;font-size:20px;margin-bottom:16px">📊 התקדמות</div><div class="stats-grid">'+sg.map(s=>`<div class="stat-card"><div style="font-size:28px;margin-bottom:4px">${s.icon}</div><div style="font-size:26px;font-weight:900;font-family:'Fredoka One',cursive;color:#FFD700">${s.val}</div><div style="font-size:12px;opacity:0.6;margin-top:3px">${s.label}</div></div>`).join('')+'</div><div style="font-weight:700;font-size:16px;margin-bottom:12px">🏆 מיילסטונים</div>'+MILESTONES.map(m=>{
+    const done=total>=m, pct=Math.min((total/m)*100,100);
+    return `<div class="milestone-item ${done?'done':'locked'}"><div style="display:flex;align-items:center;gap:12px;width:100%"><div style="font-size:28px;flex-shrink:0">${done?'🏆':'🔒'}</div><div style="flex:1"><div style="font-weight:700">${m} כוכבים</div><div class="milestone-bar"><div class="milestone-fill" style="width:${pct}%"></div></div></div><div style="font-size:13px;font-weight:700;color:${done?'#FFD700':'rgba(255,255,255,0.4)'}">${done?'✅':`${total}/${m}`}</div></div></div>`;
   }).join('');
-  return `
-    <div class="section-title">📊 התקדמות</div>
-    <div class="stats-grid">${statsHtml}</div>
-    <div class="section-subtitle">🏆 מיילסטונים</div>
-    ${msHtml}
-  `;
 }
 
 function renderPrizes() {
-  const avail = availableStars();
-  const prizeItems = prizes.map(p => `
-    <div class="prize-item ${p.redeemed?'redeemed':'available'}">
-      <div style="font-size:28px">${p.redeemed?'✅':'🎁'}</div>
-      <div style="flex:1">
-        <div class="prize-name" style="${p.redeemed?'text-decoration:line-through;opacity:0.5':''}">${p.name}</div>
-        <div class="prize-cost">${p.cost} ⭐</div>
-      </div>
-      ${!p.redeemed ? `<button class="redeem-btn ${avail>=p.cost?'can':'cant'}" onclick="redeemPrize(${p.id})">${avail>=p.cost?'מימוש!':'נעול'}</button>` : ''}
-      <button class="del-btn" onclick="deletePrize(${p.id})">✕</button>
-    </div>
-  `).join('');
-  return `
-    <div class="section-title">🎁 חנות פרסים</div>
-    <div style="font-size:13px;opacity:0.6;margin-bottom:16px">יש לך ${avail} ⭐ זמינים</div>
-    <div class="card">
-      <div class="card-title">➕ הוסף פרס</div>
-      <input class="note-input" id="prizeNameInput" placeholder="שם הפרס (למשל: גלידה 🍦)">
-      <div class="add-prize-row">
-        <div style="font-size:14px;opacity:0.7">עלות:</div>
-        <input type="number" class="num-input" id="prizeCostInput" value="50">
-        <div>⭐</div>
-      </div>
-      <button class="add-btn" onclick="addPrize()">הוסף פרס</button>
-    </div>
-    ${prizes.length ? prizeItems : '<div class="empty-state">הוסף פרסים שהבן שלך יכול לממש! 🎁</div>'}
-  `;
+  const avail=availableStars(), isChild=currentMode==='child';
+  return `<div style="font-weight:700;font-size:20px;margin-bottom:4px">🎁 חנות פרסים</div>
+  <div style="font-size:13px;opacity:0.6;margin-bottom:16px">יש לך ${avail} ⭐ זמינים</div>
+  ${!isChild?`<div class="card"><div class="card-title">➕ הוסף פרס</div><input class="note-input" id="prizeNameInput" placeholder="שם הפרס (למשל: גלידה 🍦)"><div style="display:flex;gap:10px;align-items:center;margin-bottom:10px"><div style="font-size:14px;opacity:0.7">עלות:</div><input type="number" class="num-input" id="prizeCostInput" value="50"><div>⭐</div></div><button class="add-btn" onclick="addPrize()">הוסף פרס</button></div>`:''}
+  ${prizes.length?prizes.map(p=>`<div class="prize-item ${p.redeemed?'redeemed':'available'}"><div style="font-size:28px">${p.redeemed?'✅':'🎁'}</div><div style="flex:1"><div style="font-weight:700;font-size:15px;${p.redeemed?'text-decoration:line-through;opacity:0.5':''}">${p.name}</div><div style="font-size:13px;color:#FFD700;margin-top:3px">${p.cost} ⭐</div></div>${!p.redeemed&&!isChild?`<button class="redeem-btn ${avail>=p.cost?'can':'cant'}" onclick="redeemPrize('${p.id}')">${avail>=p.cost?'מימוש!':'נעול'}</button>`:''} ${!isChild?`<button class="del-btn" onclick="deletePrize('${p.id}')">✕</button>`:''}</div>`).join(''):'<div class="empty-state">עוד אין פרסים 🎁</div>'}`;
 }
 
 function renderAdmin() {
-  return `
-    <div class="section-title">⚙️ הגדרות</div>
-    <div class="card">
-      <div class="card-title">🌟 נקודות</div>
-      <div class="admin-row">
-        <div>
-          <div class="admin-label">כוכבים לשיעור עם מורה</div>
-          <div class="admin-desc">ניתן לשנות לפי הסכמה</div>
-        </div>
-        <input type="number" class="admin-input" id="s_lessonStars" value="${settings.lessonStars}">
-      </div>
-      <div class="admin-row">
-        <div>
-          <div class="admin-label">מקסימום כוכבים לתרגול בית</div>
-          <div class="admin-desc">הבן בוחר 1-5</div>
-        </div>
-        <input type="number" class="admin-input" id="s_practiceStars" value="${settings.practiceStars}">
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">🎯 יעד שבועי</div>
-      <div class="admin-row">
-        <div>
-          <div class="admin-label">מספר תרגולים נדרש</div>
-        </div>
-        <input type="number" class="admin-input" id="s_weeklyPracticeGoal" value="${settings.weeklyPracticeGoal}">
-      </div>
-      <div class="admin-row">
-        <div>
-          <div class="admin-label">מספר שיעורים נדרש</div>
-        </div>
-        <input type="number" class="admin-input" id="s_weeklyLessonGoal" value="${settings.weeklyLessonGoal}">
-      </div>
-      <div class="admin-row">
-        <div>
-          <div class="admin-label">בונוס שבועי (כוכבים)</div>
-          <div class="admin-desc">בהשלמת כל היעד השבועי</div>
-        </div>
-        <input type="number" class="admin-input" id="s_weeklyBonusStars" value="${settings.weeklyBonusStars}">
-      </div>
-      <div class="admin-row">
-        <div>
-          <div class="admin-label">בונוס חודשי (כוכבים)</div>
-          <div class="admin-desc">בהשלמת כל חודש מלא</div>
-        </div>
-        <input type="number" class="admin-input" id="s_monthlyBonusStars" value="${settings.monthlyBonusStars}">
-      </div>
-    </div>
-    <button class="admin-save-btn" onclick="saveSettings()">💾 שמור הגדרות</button>
-    <div class="card" style="margin-top:16px">
-      <div class="card-title">🗑️ איפוס נתונים</div>
-      <div style="font-size:13px;opacity:0.6;margin-bottom:12px">מחיקת כל ההיסטוריה — לא ניתן לשחזר!</div>
-      <button class="danger-btn" onclick="resetData()">מחק את כל הנתונים</button>
-    </div>
-  `;
+  return `<div style="font-weight:700;font-size:20px;margin-bottom:16px">⚙️ הגדרות</div>
+  <div class="card"><div class="card-title">🌟 נקודות</div>
+  <div class="admin-row"><div style="font-size:14px">כוכבים לשיעור מורה</div><input type="number" class="admin-input" id="s_lessonStars" value="${settings.lessonStars}"></div>
+  <div class="admin-row"><div style="font-size:14px">מקסימום לתרגול בית</div><input type="number" class="admin-input" id="s_practiceStars" value="${settings.practiceStars}"></div></div>
+  <div class="card"><div class="card-title">🎯 יעד שבועי</div>
+  <div class="admin-row"><div style="font-size:14px">תרגולים נדרשים</div><input type="number" class="admin-input" id="s_weeklyPracticeGoal" value="${settings.weeklyPracticeGoal}"></div>
+  <div class="admin-row"><div style="font-size:14px">שיעורים נדרשים</div><input type="number" class="admin-input" id="s_weeklyLessonGoal" value="${settings.weeklyLessonGoal}"></div>
+  <div class="admin-row"><div style="font-size:14px">בונוס שבועי ⭐</div><input type="number" class="admin-input" id="s_weeklyBonusStars" value="${settings.weeklyBonusStars}"></div>
+  <div class="admin-row"><div style="font-size:14px">בונוס חודשי ⭐</div><input type="number" class="admin-input" id="s_monthlyBonusStars" value="${settings.monthlyBonusStars}"></div></div>
+  <button class="admin-save-btn" onclick="saveSettings()">💾 שמור הגדרות</button>
+  <div class="card" style="margin-top:16px"><div class="card-title">🗑️ איפוס</div><button class="danger-btn" onclick="resetData()">מחק את כל הנתונים</button></div>`;
 }
 
-function saveSettings() {
-  settings = {
-    lessonStars: parseInt(document.getElementById('s_lessonStars').value) || 15,
-    practiceStars: parseInt(document.getElementById('s_practiceStars').value) || 5,
-    weeklyPracticeGoal: parseInt(document.getElementById('s_weeklyPracticeGoal').value) || 3,
-    weeklyLessonGoal: parseInt(document.getElementById('s_weeklyLessonGoal').value) || 2,
-    weeklyBonusStars: parseInt(document.getElementById('s_weeklyBonusStars').value) || 10,
-    monthlyBonusStars: parseInt(document.getElementById('s_monthlyBonusStars').value) || 20,
-  };
-  save('piano_settings', settings);
-  showConfetti();
-  const btn = document.querySelector('.admin-save-btn');
-  btn.textContent = '✅ נשמר!';
-  setTimeout(() => { btn.textContent = '💾 שמור הגדרות'; }, 2000);
+async function logEntryFn() {
+  if(saving) return; saving=true;
+  const note=document.getElementById('noteInput')?.value||'';
+  const wp=getWeeklyCount('practice'), wl=getWeeklyCount('lesson');
+  let earned=logType==='lesson'?settings.lessonStars:selectedStars, bonusMsg='';
+  const willComplete=logType==='practice'?(wp+1>=settings.weeklyPracticeGoal&&wl>=settings.weeklyLessonGoal):(wl+1>=settings.weeklyLessonGoal&&wp>=settings.weeklyPracticeGoal);
+  if(willComplete){earned+=settings.weeklyBonusStars;bonusMsg='+'+settings.weeklyBonusStars+' בונוס שבועי!';}
+  const prev=totalStars();
+  await addDoc(collection(db,'entries'),{type:logType,stars:earned,date:Date.now(),note,bonusMsg,displayStars:logType==='practice'?selectedStars:null});
+  checkMilestone(prev,prev+earned);
+  showConfetti(); saving=false;
 }
 
-function resetData() {
-  if (confirm('בטוח? כל הנתונים יימחקו!')) {
-    entries = []; prizes = [];
-    save('piano_entries', []); save('piano_prizes', []);
-    render();
-  }
+async function addPrizeFn() {
+  const name=document.getElementById('prizeNameInput')?.value.trim();
+  const cost=parseInt(document.getElementById('prizeCostInput')?.value)||50;
+  if(!name) return;
+  await addDoc(collection(db,'prizes'),{name,cost,redeemed:false});
 }
 
-function setType(t) { logType = t; render(); }
-function setStar(n) { selectedStars = n; render(); }
-
-function logEntry() {
-  const noteEl = document.getElementById('noteInput');
-  const note = noteEl ? noteEl.value : '';
-  const weeklyPracticeBefore = getWeeklyCount('practice');
-  const weeklyLessonBefore = getWeeklyCount('lesson');
-  let earned = logType === 'lesson' ? settings.lessonStars : selectedStars;
-  let bonusMsg = '';
-
-  // Check if this completes the weekly goal
-  const practiceGoal = settings.weeklyPracticeGoal;
-  const lessonGoal = settings.weeklyLessonGoal;
-  const willCompletePractice = logType === 'practice' && weeklyPracticeBefore + 1 >= practiceGoal && weeklyLessonBefore >= lessonGoal;
-  const willCompleteLesson = logType === 'lesson' && weeklyLessonBefore + 1 >= lessonGoal && weeklyPracticeBefore >= practiceGoal;
-
-  if (willCompletePractice || willCompleteLesson) {
-    earned += settings.weeklyBonusStars;
-    bonusMsg = '+' + settings.weeklyBonusStars + ' בונוס שבועי!';
-  }
-
-  const prevTotal = totalStars();
-  const entry = {
-    id: Date.now(), type: logType, stars: earned,
-    date: new Date().toISOString(), note, bonusMsg,
-    displayStars: logType === 'practice' ? selectedStars : null
-  };
-  entries.unshift(entry);
-  save('piano_entries', entries);
-  checkMilestone(prevTotal, totalStars());
-  showConfetti();
-  render();
-}
-
-function checkMilestone(prev, next) {
-  for (const m of MILESTONES) {
-    if (prev < m && next >= m) {
-      setTimeout(() => showMilestone('הגעת ל־' + m + ' כוכבים!'), 600);
-      return;
-    }
-  }
-}
-
-function showMilestone(msg) {
-  document.getElementById('popupMsg').textContent = msg;
-  document.getElementById('milestoneOverlay').style.display = 'flex';
+async function redeemPrizeFn(id) {
+  const p=prizes.find(p=>p.id===id);
+  if(!p||availableStars()<p.cost) return;
+  await updateDoc(doc(db,'prizes',id),{redeemed:true});
   showConfetti();
 }
-function closePopup() { document.getElementById('milestoneOverlay').style.display = 'none'; }
+
+async function deletePrizeFn(id) { await deleteDoc(doc(db,'prizes',id)); }
+
+async function saveSettingsFn() {
+  const s={lessonStars:+document.getElementById('s_lessonStars').value||15,practiceStars:+document.getElementById('s_practiceStars').value||5,weeklyPracticeGoal:+document.getElementById('s_weeklyPracticeGoal').value||3,weeklyLessonGoal:+document.getElementById('s_weeklyLessonGoal').value||2,weeklyBonusStars:+document.getElementById('s_weeklyBonusStars').value||10,monthlyBonusStars:+document.getElementById('s_monthlyBonusStars').value||20};
+  await setDoc(doc(db,'config','settings'),s);
+  showConfetti();
+  const btn=document.querySelector('.admin-save-btn');
+  if(btn){btn.textContent='✅ נשמר!';setTimeout(()=>{btn.textContent='💾 שמור הגדרות';},2000);}
+}
+
+async function resetDataFn() {
+  if(!confirm('בטוח? כל הנתונים יימחקו!')) return;
+  for(const e of entries) await deleteDoc(doc(db,'entries',e.id));
+  for(const p of prizes) await deleteDoc(doc(db,'prizes',p.id));
+}
+
+function checkMilestone(prev,next) {
+  for(const m of MILESTONES) if(prev<m&&next>=m){setTimeout(()=>{document.getElementById('popupMsg').textContent='הגעת ל־'+m+' כוכבים!';document.getElementById('milestoneOverlay').style.display='flex';showConfetti();},600);return;}
+}
 
 function showConfetti() {
-  const wrap = document.getElementById('confettiWrap');
-  wrap.innerHTML = '';
-  const colors = ['#FFD700','#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#FFEAA7','#f093fb'];
-  for (let i = 0; i < 45; i++) {
-    const el = document.createElement('div');
-    el.className = 'confetti-piece';
-    el.style.cssText = `left:${Math.random()*100}%;width:${8+Math.random()*10}px;height:${8+Math.random()*10}px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*0.6}s;animation-duration:${1.8+Math.random()*0.8}s;`;
-    wrap.appendChild(el);
-  }
-  setTimeout(() => { wrap.innerHTML = ''; }, 3000);
+  const wrap=document.getElementById('confettiWrap'); wrap.innerHTML='';
+  const colors=['#FFD700','#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#f093fb'];
+  for(let i=0;i<45;i++){const el=document.createElement('div');el.className='confetti-piece';el.style.cssText=`left:${Math.random()*100}%;width:${8+Math.random()*10}px;height:${8+Math.random()*10}px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*0.6}s;animation-duration:${1.8+Math.random()*0.8}s;`;wrap.appendChild(el);}
+  setTimeout(()=>{wrap.innerHTML='';},3000);
 }
-
-function addPrize() {
-  const name = document.getElementById('prizeNameInput').value.trim();
-  const cost = parseInt(document.getElementById('prizeCostInput').value) || 50;
-  if (!name) return;
-  prizes.push({ id: Date.now(), name, cost, redeemed: false });
-  save('piano_prizes', prizes);
-  render();
-}
-
-function redeemPrize(id) {
-  const p = prizes.find(p => p.id === id);
-  if (!p || availableStars() < p.cost) return;
-  p.redeemed = true;
-  save('piano_prizes', prizes);
-  showConfetti();
-  render();
-}
-
-function deletePrize(id) {
-  prizes = prizes.filter(p => p.id !== id);
-  save('piano_prizes', prizes);
-  render();
-}
-
-render();
 </script>
 </body>
 </html>
